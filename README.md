@@ -1,70 +1,125 @@
-# Getting Started with Create React App
+# React + Nginx 배포 테스트 앱
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+이 프로젝트는 React 앱을 nginx로 배포하는 방법을 보여주는 테스트 프로젝트입니다.
 
-## Available Scripts
+## 🚀 빠른 시작
 
-In the project directory, you can run:
+### 1. 의존성 설치
+```bash
+npm install
+```
 
-### `npm start`
+### 2. 개발 서버 실행
+```bash
+npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 3. nginx 배포
+```bash
+./deploy.sh
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📦 배포 방법
 
-### `npm test`
+### Docker를 사용한 배포 (권장)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **자동 배포**
+   ```bash
+   ./deploy.sh
+   ```
 
-### `npm run build`
+2. **수동 배포**
+   ```bash
+   # React 앱 빌드
+   npm run build
+   
+   # Docker 컨테이너 시작
+   docker compose up -d --build
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **배포 확인**
+   - 브라우저에서 `http://localhost:8080` 접속
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 수동 nginx 배포
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **React 앱 빌드**
+   ```bash
+   npm run build
+   ```
 
-### `npm run eject`
+2. **nginx 설정**
+   - `nginx.conf` 파일을 nginx 설정 디렉토리에 복사
+   - `build/` 폴더의 내용을 nginx 웹 루트 디렉토리에 복사
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🐳 Docker 명령어
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+# 컨테이너 상태 확인
+docker compose ps
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# 로그 확인
+docker compose logs -f
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# 컨테이너 중지
+docker compose down
 
-## Learn More
+# 컨테이너 재시작
+docker compose restart
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📁 프로젝트 구조
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+basic-react/
+├── src/                    # React 소스 코드
+├── public/                 # 정적 파일
+├── build/                  # 빌드된 파일 (npm run build 후 생성)
+├── nginx.conf             # nginx 설정 파일
+├── Dockerfile             # Docker 이미지 설정
+├── docker-compose.yml     # Docker Compose 설정
+├── deploy.sh              # 배포 스크립트
+└── package.json           # 프로젝트 의존성
+```
 
-### Code Splitting
+## 🔧 nginx 설정 특징
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **SPA 지원**: React Router를 위한 fallback 설정
+- **정적 파일 캐싱**: JS, CSS, 이미지 파일 최적화
+- **gzip 압축**: 전송 크기 최적화
+- **보안 헤더**: XSS, CSRF 등 보안 강화
 
-### Analyzing the Bundle Size
+## 🌐 접속 정보
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **개발 서버**: http://localhost:3000
+- **nginx 배포**: http://localhost:8080
 
-### Making a Progressive Web App
+## 📝 추가 정보
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- React 앱은 `npm run build` 명령으로 빌드됩니다
+- 빌드된 파일은 `build/` 폴더에 생성됩니다
+- nginx는 포트 8080에서 서비스를 제공합니다
+- Docker 컨테이너는 자동으로 재시작됩니다
 
-### Advanced Configuration
+## 🚨 문제 해결
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 포트 충돌
+```bash
+# 사용 중인 포트 확인
+lsof -i :8080
 
-### Deployment
+# 다른 포트 사용
+docker-compose up -d --build -p 8081
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 권한 문제
+```bash
+# 배포 스크립트 실행 권한 부여
+chmod +x deploy.sh
+```
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Docker 문제
+```bash
+# Docker 서비스 상태 확인
+docker --version
+docker compose version
+```

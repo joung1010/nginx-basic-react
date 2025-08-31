@@ -1,0 +1,9 @@
+services:
+  react-app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+    container_name: react-nginx-app
