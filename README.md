@@ -1,6 +1,6 @@
-# React + Nginx 배포 테스트 앱
+# React + Vite + Nginx 배포 테스트 앱
 
-이 프로젝트는 React 앱을 nginx로 배포하는 방법을 보여주는 테스트 프로젝트입니다.
+이 프로젝트는 **Vite**로 빌드된 React 앱을 nginx로 배포하는 방법을 보여주는 테스트 프로젝트입니다.
 
 ## 🚀 빠른 시작
 
@@ -9,9 +9,11 @@
 npm install
 ```
 
-### 2. 개발 서버 실행
+### 2. 개발 서버 실행 (Vite)
 ```bash
 npm start
+# 또는
+npm run dev
 ```
 
 ### 3. nginx 배포
@@ -90,7 +92,7 @@ basic-react/
 
 ## 🌐 접속 정보
 
-- **개발 서버**: http://localhost:3000
+- **개발 서버 (Vite)**: http://localhost:3000
 - **nginx 배포**: http://localhost:8080
 
 ## 📝 추가 정보

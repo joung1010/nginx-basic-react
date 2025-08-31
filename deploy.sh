@@ -6,8 +6,8 @@ echo "🚀 React 앱 배포 시작..."
 echo "📦 기존 컨테이너 정리 중..."
 docker compose down
 
-# React 앱 빌드
-echo "🔨 React 앱 빌드 중..."
+# React 앱 빌드 (Vite)
+echo "🔨 React 앱 빌드 중 (Vite)..."
 npm run build
 
 # Docker 이미지 빌드 및 실행
