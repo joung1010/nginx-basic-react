@@ -12,3 +12,4 @@ EXPOSE 80
 
 # nginx 시작
 CMD ["nginx", "-g", "daemon off;"]
+
